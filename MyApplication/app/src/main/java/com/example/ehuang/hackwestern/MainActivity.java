@@ -18,6 +18,10 @@ import android.util.Log;
 import android.telephony.SmsManager;
 import android.view.View;
 import android.widget.Button;
+
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.thalmic.myo.*;
 import com.thalmic.myo.scanner.ScanActivity;
 import android.view.View.OnClickListener;
@@ -30,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private FusedLocationProviderClient mFusedLocationClient;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     private static Activity YourActivity;
+    private Location location = null;
 
     private DeviceListener mListener = new AbstractDeviceListener() {
 
@@ -103,18 +108,28 @@ public class MainActivity extends AppCompatActivity {
             // Handle the cases of the Pose enumeration, and change the text of the text view
             // based on the pose we receive.
 
-            //grabs gps location
-            Location location = null;
+            if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return;
+            }
+
             mFusedLocationClient.getLastLocation()
-                    .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                    .addOnSuccessListener(MainActivity.this, new OnSuccessListener<Location>() {
                         @Override
                         public void onSuccess(Location loc) {
-                            location = loc;
-                            if (location != null) {
-                                // Logic to handle location object
+                            if (loc != null) {
+                                location = loc;
                             }
                         }
                     });
+
+            System.out.println(location);
 
             switch (pose) {
                 case UNKNOWN:
