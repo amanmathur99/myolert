@@ -17,6 +17,7 @@ import android.util.Log;
 import android.telephony.SmsManager;
 import android.view.View;
 import android.widget.Button;
+
 import com.thalmic.myo.*;
 import com.thalmic.myo.scanner.ScanActivity;
 
@@ -52,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         // arm. This lets Myo know which arm it's on and which way it's facing.
         @Override
         public void onArmSync(Myo myo, long timestamp, Arm arm, XDirection xDirection) {
-            System.out.println(myo.getArm() == Arm.LEFT ? "left": "right");
+            System.out.println(myo.getArm() == Arm.LEFT ? "left" : "right");
         }
 
         // onArmUnsync() is called whenever Myo has detected that it was moved from a stable position on a person's arm after
@@ -141,15 +142,15 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-  
+
     private Button b;
     private String num;
-    private EditText phoneNum , Msg;
+    private EditText phoneNum, Msg;
     private Button sendButton;
     private int permissions_request_sendMsg = 1;
-  
+
     @Override
-    protected void onCreate (Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -185,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View arg0) {
                 System.out.println("we suck");
                 Intent callIntent = new Intent(Intent.ACTION_CALL);
-                callIntent.setData(Uri.parse("tel:"+num));
+                callIntent.setData(Uri.parse("tel:" + num));
                 if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
                     // TODO: Consider calling
                     //    ActivityCompat#requestPermissions
@@ -213,22 +214,19 @@ public class MainActivity extends AppCompatActivity {
                 String tele = phoneNum.getText().toString();
                 System.out.println("hellO");
                 //ask for user permission
-                if(ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.SEND_SMS)
-                        != PackageManager.PERMISSION_GRANTED)
-                {
-                    ActivityCompat.requestPermissions(MainActivity.this,new String[]{Manifest.permission.SEND_SMS},
+                if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.SEND_SMS)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.SEND_SMS},
                             permissions_request_sendMsg);
-                }
-                else
-                {
+                } else {
                     SmsManager sms = SmsManager.getDefault();
-                    sms.sendTextMessage(tele,null,message,null,null);
+                    sms.sendTextMessage(tele, null, message, null, null);
                 }
             }
         });
     }
 
-    }
+    //}
 
     private void onScanActionSelected() {
         // Launch the ScanActivity to scan for Myos to connect to.
@@ -283,11 +281,12 @@ public class MainActivity extends AppCompatActivity {
                 if (isPermissionGranted(permissions, grantResults, Manifest.permission.ACCESS_FINE_LOCATION)) {
                     //Do you work
                 } else {
-                    Toast.makeText(this, "Can not proceed! i need permission" , Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Can not proceed! i need permission", Toast.LENGTH_SHORT).show();
                 }
                 break;
         }
     }
+
     public static boolean isPermissionGranted(@NonNull String[] grantPermissions, @NonNull int[] grantResults,
                                               @NonNull String permission) {
         for (int i = 0; i < grantPermissions.length; i++) {
