@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.SEND_SMS"/>
 
     // Required for communicating with the Myo device
     <uses-permission android:name="android.permission.BLUETOOTH" />

@@ -14,6 +14,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.telephony.SmsManager;
 import android.view.View;
 import android.widget.Button;
 import com.thalmic.myo.*;
@@ -22,9 +23,11 @@ import com.thalmic.myo.scanner.ScanActivity;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.EditText;
 
 
 public class MainActivity extends AppCompatActivity {
+
 
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     private static Activity YourActivity;
@@ -138,8 +141,15 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
+  
+    private Button b;
+    private String num;
+    private EditText phoneNum , Msg;
+    private Button sendButton;
+    private int permissions_request_sendMsg = 1;
+  
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate (Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -166,26 +176,58 @@ public class MainActivity extends AppCompatActivity {
 
         onScanActionSelected();
 
-        System.out.println("done");
+        b = (Button) findViewById(R.id.button);
+        num = "6472687381";
+        // add button listener
+        b.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+                System.out.println("we suck");
+                Intent callIntent = new Intent(Intent.ACTION_CALL);
+                callIntent.setData(Uri.parse("tel:"+num));
+                if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                    // TODO: Consider calling
+                    //    ActivityCompat#requestPermissions
+                    // here to request the missing permissions, and then overriding
+                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    //                                          int[] grantResults)
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for ActivityCompat#requestPermissions for more details.
+                    System.out.println("we rock");
+
+                    return;
+                }
+                startActivity(callIntent);
+            }
+
+        });
+        phoneNum = (EditText) findViewById(R.id.phoneNum);
+        Msg = (EditText) findViewById(R.id.Msg);
+
+        sendButton = (Button) findViewById(R.id.sendButton);
+        sendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String message = Msg.getText().toString();
+                String tele = phoneNum.getText().toString();
+                System.out.println("hellO");
+                //ask for user permission
+                if(ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.SEND_SMS)
+                        != PackageManager.PERMISSION_GRANTED)
+                {
+                    ActivityCompat.requestPermissions(MainActivity.this,new String[]{Manifest.permission.SEND_SMS},
+                            permissions_request_sendMsg);
+                }
+                else
+                {
+                    SmsManager sms = SmsManager.getDefault();
+                    sms.sendTextMessage(tele,null,message,null,null);
+                }
+            }
+        });
     }
 
-    private Button b;
-    String num = "1234567890";
-    public void addListenerOnButtonClick(){
-        b = (Button)findViewById(R.id.button);
-        b.setOnClickListener(
-                new View.OnClickListener(){
-                    @Override
-                    public void onClick(View view){
-                        Intent callintent = new Intent(Intent.ACTION_CALL);
-                        callintent.setData(Uri.parse("tel:"+num));
-                        if(ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CALL_PHONE)!= PackageManager.PERMISSION_GRANTED){
-                            return;
-                        }
-                        startActivity(callintent);
-                    }
-                }
-        );
     }
 
     private void onScanActionSelected() {
