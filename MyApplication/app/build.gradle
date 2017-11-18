@@ -22,7 +22,7 @@ android {
 dependencies {
     repositories {
         maven {
-            url 'D:/Documents/GitHub/hackwestern4/myo-android-sdk-0.10.0/myorepository'
+            url 'myo-android-sdk-0.10.0/myorepository'
         }
     }
 
