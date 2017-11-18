@@ -18,6 +18,7 @@ import android.widget.EditText;
 public class MainActivity extends AppCompatActivity {
 
     private Button b;
+    private String num;
     private EditText phoneNum , Msg;
     private Button sendButton;
     private int permissions_request_sendMsg = 1;
@@ -28,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         b = (Button) findViewById(R.id.button);
-
+        num = "6472687381";
         // add button listener
         b.setOnClickListener(new View.OnClickListener() {
 
@@ -36,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View arg0) {
                 System.out.println("we suck");
                 Intent callIntent = new Intent(Intent.ACTION_CALL);
-                callIntent.setData(Uri.parse("tel:6478982744"));
+                callIntent.setData(Uri.parse("tel:"+num));
                 if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
                     // TODO: Consider calling
                     //    ActivityCompat#requestPermissions
