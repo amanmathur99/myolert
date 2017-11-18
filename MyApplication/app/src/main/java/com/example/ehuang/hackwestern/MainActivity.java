@@ -141,12 +141,15 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case FIST:
                     System.out.println("fist");
+                    textSMS("6472687381","HELPP");
                     break;
                 case WAVE_IN:
                     System.out.println("wave in");
+                    textSMS("6472687381","HELPP");
                     break;
                 case WAVE_OUT:
                     System.out.println("wave out");
+                    call("6472687381");
                     break;
                 case FINGERS_SPREAD:
                     System.out.println("spread");
@@ -164,8 +167,9 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 // Tell the Myo to stay unlocked only for a short period. This allows the Myo to
                 // stay unlocked while poses are being performed, but lock after inactivity.
-                myo.unlock(Myo.UnlockType.TIMED);
+                //myo.unlock(Myo.UnlockType.TIMED);
             }
+
         }
     };
 
@@ -192,6 +196,7 @@ public class MainActivity extends AppCompatActivity {
         }
         // Next, register for DeviceListener callbacks.
         hub.addListener(mListener);
+        Hub.getInstance().setLockingPolicy(Hub.LockingPolicy.STANDARD);
         YourActivity = this;
         if (ContextCompat.checkSelfPermission(YourActivity,
                 Manifest.permission.ACCESS_FINE_LOCATION)
@@ -240,7 +245,6 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String message = Msg.getText().toString();
                 String tele = phoneNum.getText().toString();
-                System.out.println("hellO");
                 //ask for user permission
                 if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.SEND_SMS)
                         != PackageManager.PERMISSION_GRANTED) {
@@ -255,6 +259,39 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //}
+
+    private void textSMS(String num, String msg)
+    {
+        String message = msg;
+        String tele = num;
+        //ask for user permission
+        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.SEND_SMS)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.SEND_SMS},
+                    permissions_request_sendMsg);
+        } else {
+            SmsManager sms = SmsManager.getDefault();
+            sms.sendTextMessage(tele, null, message, null, null);
+        }
+    }
+
+    private void call(String num)
+    {
+        Intent callIntent = new Intent(Intent.ACTION_CALL);
+        callIntent.setData(Uri.parse("tel:" + num));
+        if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            //System.out.println("we rock");
+            return;
+        }
+        startActivity(callIntent);
+    }
 
     private void onScanActionSelected() {
         // Launch the ScanActivity to scan for Myos to connect to.
