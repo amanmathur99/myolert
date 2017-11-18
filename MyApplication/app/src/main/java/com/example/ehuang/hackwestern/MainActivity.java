@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -17,10 +18,8 @@ import android.util.Log;
 import android.telephony.SmsManager;
 import android.view.View;
 import android.widget.Button;
-
 import com.thalmic.myo.*;
 import com.thalmic.myo.scanner.ScanActivity;
-
 import android.view.View.OnClickListener;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,8 +27,7 @@ import android.widget.EditText;
 
 
 public class MainActivity extends AppCompatActivity {
-
-
+    private FusedLocationProviderClient mFusedLocationClient;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     private static Activity YourActivity;
 
@@ -104,6 +102,20 @@ public class MainActivity extends AppCompatActivity {
         public void onPose(Myo myo, long timestamp, Pose pose) {
             // Handle the cases of the Pose enumeration, and change the text of the text view
             // based on the pose we receive.
+
+            //grabs gps location
+            Location location = null;
+            mFusedLocationClient.getLastLocation()
+                    .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                        @Override
+                        public void onSuccess(Location loc) {
+                            location = loc;
+                            if (location != null) {
+                                // Logic to handle location object
+                            }
+                        }
+                    });
+
             switch (pose) {
                 case UNKNOWN:
                     System.out.println("unknown");
@@ -153,6 +165,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         // First, we initialize the Hub singleton with an application identifier.
         Hub hub = Hub.getInstance();
