@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Address;
@@ -12,6 +13,7 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -125,15 +127,20 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case FIST:
                     System.out.println("fist");
-                    textSMS("6476434450","HELPP I'm at: " + getAddress(location.getLatitude(),location.getLongitude()));//+ location.toString());
+                    String numtxt2 = pref.getString("number2", null);
+                    String msg2 = pref.getString("message", null);
+                    textSMS(numtxt2, msg2 + getAddress(location.getLatitude(), location.getLongitude()));
                     break;
                 case WAVE_IN:
                     System.out.println("wave in");
-                    textSMS("6472687381","HELPP");
+                    String numtxt1 = pref.getString("number1", null);
+                    String msg1 = pref.getString("message", null);
+                    textSMS(numtxt1, msg1 + getAddress(location.getLatitude(), location.getLongitude()));
                     break;
                 case WAVE_OUT:
                     System.out.println("wave out");
-                    call("6472687381");
+                    String number = pref.getString("number1", null);
+                    call(number);
                     break;
                 case FINGERS_SPREAD:
                     System.out.println("spread");
@@ -163,12 +170,16 @@ public class MainActivity extends AppCompatActivity {
     private EditText phoneNum, Msg;
     private Button sendButton;
     private int permissions_request_sendMsg = 1;
+    private SharedPreferences pref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout);
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
+        pref = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = pref.edit();
 
         // First, we initialize the Hub singleton with an application identifier.
         Hub hub = Hub.getInstance();
