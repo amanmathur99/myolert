@@ -77,7 +77,6 @@
         android:text="Number 1"
         android:textSize="18sp" />
 
-<<<<<<< Updated upstream
     <EditText
         android:id="@+id/message"
         android:layout_width="300dp"
@@ -89,6 +88,4 @@
         android:hint="Enter Help Message Here"
         android:inputType="text" />
 
-=======
->>>>>>> Stashed changes
 </RelativeLayout>

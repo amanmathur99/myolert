@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
     private FusedLocationProviderClient mFusedLocationClient;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     private static Activity YourActivity;
-    private Location location = null;
+    private Location location = new Location("");
     private DeviceListener mListener = new AbstractDeviceListener() {
 
         // onConnect() is called whenever a Myo has been connected.
@@ -139,7 +139,9 @@ public class MainActivity extends AppCompatActivity {
                     String msg1 = pref.getString("message", null);
                     System.out.println(location.getLatitude());
                     System.out.println(location.getLongitude());
-                    textSMS(numtxt1, msg1 + getAddress(location.getLatitude(), location.getLongitude()));
+                    String var = msg1 + getAddress(location.getLatitude(), location.getLongitude());
+                    System.out.println(var);
+                    textSMS(numtxt1, var);
                     break;
                 case WAVE_OUT:
                     System.out.println("wave out");
@@ -185,6 +187,9 @@ public class MainActivity extends AppCompatActivity {
 
         pref = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = pref.edit();
+
+        location.setLongitude(42.998957);
+        location.setLatitude(-81.277946);
 
         // First, we initialize the Hub singleton with an application identifier.
         Hub hub = Hub.getInstance();
@@ -275,6 +280,7 @@ public class MainActivity extends AppCompatActivity {
         }catch(IOException e) {
             System.out.println("Cannot get Address");
         }
+        System.out.println(temp);
         return temp;
     }
 
