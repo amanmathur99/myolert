@@ -44,7 +44,6 @@
             android:layout_marginStart="14dp"
             android:layout_marginTop="51dp"
             android:layout_weight="1"
-            android:background="ade5ff"
             android:baselineAligned="false"
             android:text="wave_r"
             android:textAlignment="viewStart"
