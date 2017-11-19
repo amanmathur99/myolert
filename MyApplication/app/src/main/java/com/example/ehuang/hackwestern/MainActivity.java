@@ -137,6 +137,8 @@ public class MainActivity extends AppCompatActivity {
                     System.out.println("wave in");
                     String numtxt1 = pref.getString("number1", null);
                     String msg1 = pref.getString("message", null);
+                    System.out.println(location.getLatitude());
+                    System.out.println(location.getLongitude());
                     textSMS(numtxt1, msg1 + getAddress(location.getLatitude(), location.getLongitude()));
                     break;
                 case WAVE_OUT:
@@ -258,6 +260,7 @@ public class MainActivity extends AppCompatActivity {
     private String getAddress (double latitude, double longitude)
     {
         String temp = "";
+
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
         try
         {
@@ -269,9 +272,9 @@ public class MainActivity extends AppCompatActivity {
             }
             else
                 System.out.println("NO address Returned!");
-        }catch(IOException e){
+        }catch(IOException e) {
             System.out.println("Cannot get Address");
-    }
+        }
         return temp;
     }
 

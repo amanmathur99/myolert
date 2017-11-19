@@ -15,6 +15,7 @@ import android.widget.EditText;
 public class Settings extends AppCompatActivity {
 
     private Button save;
+    private SharedPreferences pref;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,7 +23,7 @@ public class Settings extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+        pref = PreferenceManager.getDefaultSharedPreferences(this);
         final SharedPreferences.Editor editor = pref.edit();
 
         save = (Button) findViewById(R.id.save);
@@ -37,9 +38,11 @@ public class Settings extends AppCompatActivity {
                 String tele1 = tele1txt.getText().toString();
                 String tele2 = tele2txt.getText().toString();
 
+
                 editor.putString("message",msg);
                 editor.putString("num1",tele1);
                 editor.putString("num2",tele2);
+                editor.commit();
 
                 Intent myIntent = new Intent(Settings.this, MainActivity.class);
                 Settings.this.startActivity(myIntent);
