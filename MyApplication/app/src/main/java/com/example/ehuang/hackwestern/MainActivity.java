@@ -11,6 +11,7 @@ import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -43,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     private static Activity YourActivity;
     private Location location = null;
-
     private DeviceListener mListener = new AbstractDeviceListener() {
 
         // onConnect() is called whenever a Myo has been connected.
@@ -113,6 +113,8 @@ public class MainActivity extends AppCompatActivity {
 
                             if (loc != null) {
                                 location = loc;
+                            } else {
+                                System.out.println("failed");
                             }
                         }
                     });
