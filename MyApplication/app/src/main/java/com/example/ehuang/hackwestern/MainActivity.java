@@ -127,9 +127,8 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case FIST:
                     System.out.println("fist");
-                    String numtxt2 = pref.getString("number2", null);
-                    String msg2 = pref.getString("message", null);
-                    textSMS(numtxt2, msg2 + getAddress(location.getLatitude(), location.getLongitude()));
+                    String number = pref.getString("number1", null);
+                    call(number);
                     break;
                 case WAVE_IN:
                     System.out.println("wave in");
@@ -139,8 +138,9 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case WAVE_OUT:
                     System.out.println("wave out");
-                    String number = pref.getString("number1", null);
-                    call(number);
+                    String numtxt2 = pref.getString("number2", null);
+                    String msg2 = pref.getString("message", null);
+                    textSMS(numtxt2, msg2 + getAddress(location.getLatitude(), location.getLongitude()));
                     break;
                 case FINGERS_SPREAD:
                     System.out.println("spread");
