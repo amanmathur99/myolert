@@ -129,23 +129,24 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case FIST:
                     System.out.println("fist");
-                    String number = pref.getString("number1", null);
+                    String number = pref.getString("num1", null);
                     System.out.println(number);
                     call(number);
                     break;
                 case WAVE_IN:
                     System.out.println("wave in");
-                    String numtxt1 = pref.getString("number1", null);
+                    String numtxt1 = pref.getString("num1", null);
                     String msg1 = pref.getString("message", null);
                     System.out.println(location.getLatitude());
                     System.out.println(location.getLongitude());
+                    System.out.println(pref.getAll());
                     String var = msg1 + getAddress(location.getLatitude(), location.getLongitude());
                     System.out.println(var);
                     textSMS(numtxt1, var);
                     break;
                 case WAVE_OUT:
                     System.out.println("wave out");
-                    String numtxt2 = pref.getString("number2", null);
+                    String numtxt2 = pref.getString("num2", null);
                     String msg2 = pref.getString("message", null);
                     textSMS(numtxt2, msg2 + getAddress(location.getLatitude(), location.getLongitude()));
                     break;
