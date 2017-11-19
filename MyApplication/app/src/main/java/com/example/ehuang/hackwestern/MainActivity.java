@@ -130,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
                 case FIST:
                     System.out.println("fist");
                     String number = pref.getString("number1", null);
+                    System.out.println(number);
                     call(number);
                     break;
                 case WAVE_IN:
