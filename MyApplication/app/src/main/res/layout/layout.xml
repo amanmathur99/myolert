@@ -75,11 +75,11 @@
             android:layout_marginTop="21dp"
             android:layout_weight="1"
             android:baselineAligned="false"
-            android:text="Wave In"
+            android:text="Wave Out"
             android:textAlignment="viewStart"
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
             android:textSize="24sp"
-            tools:text="Wave In" />
+            tools:text="Wave Out" />
 
         <TextView
             android:id="@+id/waveright2"
@@ -90,11 +90,11 @@
             android:layout_marginTop="43dp"
             android:layout_weight="1"
             android:baselineAligned="false"
-            android:text="Wave Out"
+            android:text="Wave In"
             android:textAlignment="viewStart"
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
             android:textSize="24sp"
-            tools:text="Wave Out" />
+            tools:text="Wave In" />
 
         <TextView
             android:id="@+id/textView"
