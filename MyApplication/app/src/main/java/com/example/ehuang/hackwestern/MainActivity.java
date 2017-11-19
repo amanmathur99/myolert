@@ -7,6 +7,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
@@ -28,6 +30,10 @@ import android.view.View.OnClickListener;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.EditText;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -129,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
 
-            System.out.println(location);
+            //System.out.println(location);
 
             switch (pose) {
                 case UNKNOWN:
@@ -141,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case FIST:
                     System.out.println("fist");
-                    textSMS("6472687381","HELPP");
+                    textSMS("6476434450","HELPP I'm at: " + getAddress(location.getLatitude(),location.getLongitude()));//+ location.toString());
                     break;
                 case WAVE_IN:
                     System.out.println("wave in");
@@ -291,6 +297,26 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
         startActivity(callIntent);
+    }
+
+    private String getAddress (double latitude, double longitude)
+    {
+        String temp = "";
+        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+        try
+        {
+            List<Address> addresses = geocoder.getFromLocation(latitude,longitude,1);
+            if(addresses != null)// address not empty
+            {
+                Address returnedadd = addresses.get(0);
+                temp = temp + returnedadd.getAddressLine(0);
+            }
+            else
+                System.out.println("NO address Returned!");
+        }catch(IOException e){
+            System.out.println("Cannot get Address");
+    }
+        return temp;
     }
 
     private void onScanActionSelected() {
