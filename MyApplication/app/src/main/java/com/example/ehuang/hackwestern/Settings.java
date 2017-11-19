@@ -1,5 +1,6 @@
 package com.example.ehuang.hackwestern;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -24,14 +25,6 @@ public class Settings extends AppCompatActivity {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
         final SharedPreferences.Editor editor = pref.edit();
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
         save = (Button) findViewById(R.id.save);
         save.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,6 +40,9 @@ public class Settings extends AppCompatActivity {
                 editor.putString("message",msg);
                 editor.putString("num1",tele1);
                 editor.putString("num2",tele2);
+
+                Intent myIntent = new Intent(Settings.this, MainActivity.class);
+                Settings.this.startActivity(myIntent);
             }
         });
 
