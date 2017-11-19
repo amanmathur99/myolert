@@ -87,27 +87,6 @@ public class MainActivity extends AppCompatActivity {
             System.out.println("lock");
         }
 
-        // onOrientationData() is called whenever a Myo provides its current orientation,
-        // represented as a quaternion.
-        @Override
-        public void onOrientationData(Myo myo, long timestamp, Quaternion rotation) {
-            // Calculate Euler angles (roll, pitch, and yaw) from the quaternion.
-            float roll = (float) Math.toDegrees(Quaternion.roll(rotation));
-            float pitch = (float) Math.toDegrees(Quaternion.pitch(rotation));
-            float yaw = (float) Math.toDegrees(Quaternion.yaw(rotation));
-
-            // Adjust roll and pitch for the orientation of the Myo on the arm.
-            if (myo.getXDirection() == XDirection.TOWARD_ELBOW) {
-                roll *= -1;
-                pitch *= -1;
-            }
-
-            // Next, we apply a rotation to the text view using the roll, pitch, and yaw.
-            //mTextView.setRotation(roll);
-            //mTextView.setRotationX(pitch);
-            //mTextView.setRotationY(yaw);
-        }
-
         // onPose() is called whenever a Myo provides a new pose.
         @Override
         public void onPose(Myo myo, long timestamp, Pose pose) {
@@ -129,13 +108,12 @@ public class MainActivity extends AppCompatActivity {
                     .addOnSuccessListener(MainActivity.this, new OnSuccessListener<Location>() {
                         @Override
                         public void onSuccess(Location loc) {
+
                             if (loc != null) {
                                 location = loc;
                             }
                         }
                     });
-
-            //System.out.println(location);
 
             switch (pose) {
                 case UNKNOWN:
@@ -189,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.layout);
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         // First, we initialize the Hub singleton with an application identifier.
@@ -214,57 +192,21 @@ public class MainActivity extends AppCompatActivity {
             askForLocationPermissions();
         }
 
-        onScanActionSelected();
-
-        b = (Button) findViewById(R.id.button);
-        num = "6472687381";
-        // add button listener
-        b.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-                System.out.println("we suck");
-                Intent callIntent = new Intent(Intent.ACTION_CALL);
-                callIntent.setData(Uri.parse("tel:" + num));
-                if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                    // TODO: Consider calling
-                    //    ActivityCompat#requestPermissions
-                    // here to request the missing permissions, and then overriding
-                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                    //                                          int[] grantResults)
-                    // to handle the case where the user grants the permission. See the documentation
-                    // for ActivityCompat#requestPermissions for more details.
-                    System.out.println("we rock");
-
-                    return;
-                }
-                startActivity(callIntent);
+        Button controlsBtn = (Button) findViewById(R.id.controlsBtn);
+        controlsBtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                onScanActionSelected();
             }
-
         });
-        phoneNum = (EditText) findViewById(R.id.phoneNum);
-        Msg = (EditText) findViewById(R.id.Msg);
 
-        sendButton = (Button) findViewById(R.id.sendButton);
-        sendButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String message = Msg.getText().toString();
-                String tele = phoneNum.getText().toString();
-                //ask for user permission
-                if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.SEND_SMS)
-                        != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.SEND_SMS},
-                            permissions_request_sendMsg);
-                } else {
-                    SmsManager sms = SmsManager.getDefault();
-                    sms.sendTextMessage(tele, null, message, null, null);
-                }
+        Button settingsBtn = (Button) findViewById(R.id.settingsBtn);
+        settingsBtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent myIntent = new Intent(MainActivity.this, Settings.class);
+                MainActivity.this.startActivity(myIntent);
             }
         });
     }
-
-    //}
 
     private void textSMS(String num, String msg)
     {
