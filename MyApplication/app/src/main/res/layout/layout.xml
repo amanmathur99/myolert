@@ -10,7 +10,7 @@
         android:layout_weight="1"
         android:orientation="vertical">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -30,7 +30,7 @@
                 android:layout_weight="1"
                 android:text="Settings" />
 
-        </RelativeLayout>
+        </LinearLayout>
 
         <Switch
             android:layout_width="match_parent"
